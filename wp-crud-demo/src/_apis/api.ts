@@ -54,3 +54,16 @@ export const updateUserByIdApi = async (
   console.log("About to update", id);
   return axios.patch(API_URL + "/users/" + id, user);
 };
+
+export const createUserApi = async (
+  user: Partial<User>
+): Promise<{
+  statusCode: number;
+  message: string;
+  data: {
+    data: User;
+  };
+}> => {
+  console.log("About to create", user);
+  return axios.post(API_URL + "/users", user);
+};

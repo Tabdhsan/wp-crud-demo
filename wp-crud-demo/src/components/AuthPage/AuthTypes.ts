@@ -6,6 +6,6 @@ export enum AuthTypes {
 export type AuthFormik = {
   username: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
 };

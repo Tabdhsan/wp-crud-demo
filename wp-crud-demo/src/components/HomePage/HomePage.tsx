@@ -1,4 +1,4 @@
-import NavBar from "../General/NavBar";
+import NavBar from "../_common/NavBar";
 import { Stack } from "@mui/material";
 import UserCard from "./UserCard";
 import { useState, useEffect } from "react";

@@ -1,8 +1,6 @@
 export type ProfileFormik = {
   username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  hobbies: string;
+  firstname: string;
+  lastname: string;
   description: string;
 };

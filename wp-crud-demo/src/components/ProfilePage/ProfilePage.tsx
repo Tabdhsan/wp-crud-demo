@@ -1,6 +1,5 @@
-import { Stack } from '@mui/material'
-import NavBar from '../General/NavBar'
-import ProfileItem from './ProfileItem'
+import { Stack, TextField, Typography, Button } from '@mui/material'
+import NavBar from '../_common/NavBar'
 import { useFormik, FormikProvider, Form } from 'formik'
 import * as Yup from 'yup'
 import { ProfileFormik } from './ProfileTypes'
@@ -8,24 +7,33 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { deleteUserByIdApi, getUserByIdApi, updateUserByIdApi } from '../../_apis/api'
 import { User } from '../../_apis/apiTypes'
+import { Edit } from '@mui/icons-material'
 
 const ProfilePage = () => {
     const { id } = useParams();
 
-    // TODOTAB: Should this be a statE?
+    // TODOTAB: Should this be a state?
     // Also add the type
     const [curUser, setCurUser] = useState<User | null>(null)
+    const [isEditMode, setIsEditMode] = useState(false)
 
     useEffect(() => {
-        if (!id) return
+        if (!id || !!curUser) return
         getUserByIdApi(id).then(({ data }) => {
             console.log(data)
             setCurUser(data.data)
         }).catch(err => console.log(err))
+    }, [id, curUser])
 
-    }, [id])
+    const enterEditMode = () => {
+        setIsEditMode(true)
+    }
 
-    const deleteProfile = () => {
+    const exitEditMode = () => {
+        setIsEditMode(false)
+    }
+
+    const deleteUser = () => {
         if (!id) return
         deleteUserByIdApi(id).then(({ data }) => {
             console.log(data)
@@ -36,59 +44,35 @@ const ProfilePage = () => {
         ).catch(err => console.log(err))
     }
 
-    const updateProfile = () => {
-        if (!id) return
-        updateUserByIdApi(id, {
-            username: 'This is from react'
-        }).then(({ data }) => {
-            console.log(data)
-            setCurUser(data.data)
-            console.log('updated')
-        }
-        ).catch(err => console.log(err))
-
-    }
 
 
 
     const profileFormik = useFormik<ProfileFormik>({
         enableReinitialize: true,
         initialValues: {
-            username: '',
-            password: '',
-            firstName: '',
-            lastName: '',
-            hobbies: '',
-            description: '',
+            username: curUser?.username || '',
+            firstname: curUser?.firstname || '',
+            lastname: curUser?.lastname || '',
+            description: curUser?.description || '',
         },
         validationSchema: Yup.object({}),
         onSubmit: async (values) => {
+            if (!id) return
             // Add a delay of 2 seconds (2000 milliseconds)
             await new Promise(resolve => setTimeout(resolve, 2000)); // TODOTAB: Remove this artificial delay
+            updateUserByIdApi(id, values).then(({ data }) => {
+                console.log(data)
+                setCurUser(data.data)
+                exitEditMode()
+            }).catch(err => console.log(err))
 
             console.log('submit values', values);
 
         },
     })
 
-    const { handleSubmit } = profileFormik
+    const { handleSubmit, getFieldProps } = profileFormik
 
-
-
-    const testItems = [
-        {
-            'title': 'Hobbies',
-            'description': 'test'
-        },
-        {
-            'title': 'Description',
-            'description': 'test'
-        },
-        {
-            'title': 'Location',
-            'description': 'test'
-        }
-    ]
 
 
     //TODOTAB: Handle this better ?
@@ -99,10 +83,6 @@ const ProfilePage = () => {
         <Stack>
             {/* TODOTAB: Where should navbar be? */}
             <NavBar />
-            <button type='button' onClick={() => console.log(curUser)}>curUser</button>
-            <button type='button' style={{ backgroundColor: 'red' }} onClick={deleteProfile}>delete</button>
-            <button type='button' style={{ backgroundColor: 'green' }} onClick={updateProfile}>update</button>
-            <h1>{curUser?.username}</h1>
             <FormikProvider value={profileFormik}>
                 <Form noValidate onSubmit={handleSubmit}>
                     <Stack direction='row'>
@@ -110,22 +90,53 @@ const ProfilePage = () => {
                             <Stack sx={{ backgroundColor: 'green' }}>This is where the image will go</Stack>
                             <Stack sx={{ backgroundColor: 'blue' }}>This is the info below the image</Stack>
                         </Stack>
-                        <Stack width='70%' sx={{ backgroundColor: 'yellow' }}>
-                            {/* TODOTAB: This can be a mapped array of nodes */}
+                        <Stack width='70%' sx={{ backgroundColor: 'yellow' }} gap={2} p={2}>
+                            <Stack direction='row' gap={1} alignItems='center'>
+                                <Typography variant='h4'>Your Profile Info</Typography>
+                                {!isEditMode && <Edit sx={{ fontSize: '1rem', cursor: 'pointer' }} onClick={enterEditMode} />}
+                            </Stack>
                             {
-                                testItems?.map(item => (
-                                    <ProfileItem
-                                        key={item.title}
-                                        title={item.title}
-                                        description={item.description}
-                                    />
-                                )
-                                )
+
+                                isEditMode ?
+                                    <Stack gap={2}>
+                                        <TextField label='Username' {...getFieldProps('username')} />
+                                        <TextField label='First Name' {...getFieldProps('firstname')} />
+                                        <TextField label='Last Name' {...getFieldProps('lastname')} />
+                                        <TextField label='Description' {...getFieldProps('description')} />
+
+                                        {/* TODOTAB: See if this is used else where */}
+                                        <Stack direction='row' gap={1} alignSelf='flex-end'>
+                                            <Button variant='contained' onClick={exitEditMode}>Cancel</Button>
+                                            <Button variant='contained' type='submit'>Save</Button>
+                                        </Stack>
+                                    </Stack>
+                                    :
+                                    <Stack>
+                                        <Stack direction='row' gap={1}>
+                                            <Typography>Username:</Typography>
+                                            <Typography>@{curUser.username}</Typography>
+                                        </Stack>
+                                        <Stack direction='row' gap={1}>
+                                            <Typography>First Name:</Typography>
+                                            <Typography>{curUser.firstname}</Typography>
+                                        </Stack>
+                                        <Stack direction='row' gap={1}>
+                                            <Typography>Last Name:</Typography>
+                                            <Typography>{curUser.lastname}</Typography>
+                                        </Stack>
+                                        <Stack direction='row' gap={1}>
+                                            <Typography>Description:</Typography>
+                                            <Typography>{curUser.description}</Typography>
+                                        </Stack>
+                                    </Stack>
+
                             }
                         </Stack>
                     </Stack>
                 </Form>
             </FormikProvider>
+            {/* TODOTAB: Add are you sure dialog */}
+            <Button variant='contained' onClick={deleteUser}>Delete Account</Button>
         </Stack>
     )
 }
