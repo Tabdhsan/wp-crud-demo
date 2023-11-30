@@ -12,10 +12,10 @@ interface DisabledLinkProps {
 const DisabledLink = (props: DisabledLinkProps) => {
     const { to, disabled, children } = props;
     if (disabled) {
-        return <span>{children}</span>;
+        return <span style={{ textAlign: 'center' }}>{children}</span>;
     }
 
-    return <RouterLink to={to}>{children}</RouterLink>;
+    return <RouterLink to={to} style={{ textAlign: 'center' }}>{children}</RouterLink>;
 };
 
 

@@ -83,7 +83,10 @@ export const signin = async (req: Request, res: Response) => {
 		// 	domain: 'localhost',
 		// 	path: '/',
 		// } here
-		res.cookie('wp-crud-demo-cookie', sessionToken);
+		res.cookie('wp-crud-demo-cookie', sessionToken, {
+			domain: 'localhost',
+			path: '/',
+		});
 
 		let userRes: UserRes = {
 			id: user.id,

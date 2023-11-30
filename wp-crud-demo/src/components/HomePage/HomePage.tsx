@@ -2,7 +2,7 @@ import NavBar from "../_common/NavBar";
 import { Stack } from "@mui/material";
 import UserCard from "./UserCard";
 import { useState, useEffect } from "react";
-import { getAllUsersApi } from "../../_apis/api";
+import { getAllUsersApi } from "../../_apis/users";
 import { User } from "../../_apis/apiTypes";
 
 const HomePage = () => {
@@ -13,12 +13,14 @@ const HomePage = () => {
     // The API type should have a wrapper at least
     // Look into axios props
     useEffect(() => {
-        getAllUsersApi().then(({ data }) => {
-            console.log(data)
-            setAllUsers(data.data)
+        if (allUsers.length > 0) return;
+        console.log('about ot run')
+        getAllUsersApi().then((res) => {
+            console.log(res)
+            setAllUsers(res)
         }).catch(err => console.log(err))
 
-    }, []);
+    }, [allUsers.length]);
 
 
     return (

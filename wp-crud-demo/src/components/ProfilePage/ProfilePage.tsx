@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 import { ProfileFormik } from './ProfileTypes'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { deleteUserByIdApi, getUserByIdApi, updateUserByIdApi } from '../../_apis/api'
+import { deleteUserByIdApi, getUserByIdApi, updateUserByIdApi } from '../../_apis/users'
 import { User } from '../../_apis/apiTypes'
 import { Edit } from '@mui/icons-material'
 
@@ -19,9 +19,10 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (!id || !!curUser) return
-        getUserByIdApi(id).then(({ data }) => {
-            console.log(data)
-            setCurUser(data.data)
+        getUserByIdApi(id).then((res) => {
+
+            // @ts-expect-error TODOTAB: Fix this
+            setCurUser(res)
         }).catch(err => console.log(err))
     }, [id, curUser])
 

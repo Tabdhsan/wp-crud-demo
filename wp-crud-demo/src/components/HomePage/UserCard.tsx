@@ -3,7 +3,7 @@ import { Card } from "@mui/material";
 import { useNavigate } from 'react-router-dom'
 
 interface UserCardProps {
-    id: string;
+    id: number;
     name: string;
     description: string;
 }
