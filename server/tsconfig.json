@@ -1,11 +1,9 @@
 {
 	"compilerOptions": {
-		"target": "es6",
 		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
+		//"moduleResolution": "node",
 		"baseUrl": "src",
 		"outDir": "dist",
-		"rootDir": "src",
 		"sourceMap": true,
 		"noImplicitAny": true
 	},
