@@ -19,7 +19,7 @@ import UserNotFound from './UserNotFound';
 import { alphanumericValidation } from '../../utils/validationConstants';
 import useNotification from '../../hooks/useNotification';
 import CustomNotification from '../_general/Notifications';
-import AreYouSureDialog from '../_general/AreYouSureDialog';
+import AreYouSureDialog from '../_general/AreYouSureDialog/AreYouSureDialog';
 
 const ProfilePage = () => {
 	const params = useParams();

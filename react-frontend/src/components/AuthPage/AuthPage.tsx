@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { AuthFormik, AuthTypes } from './AuthTypes';
 import { useFormik, FormikProvider, Form } from 'formik';
 import * as Yup from 'yup';
-import DisabledLink from '../_general/DisabledLink';
+import DisabledLink from '../_general/DisabledLink/DisabledLink';
 import CustomNotification from '../_general/Notifications';
 import { signinApi, signupApi } from '../../_apis/authentication';
 import { UserSignInReq } from '../../_apis/apiTypes';
