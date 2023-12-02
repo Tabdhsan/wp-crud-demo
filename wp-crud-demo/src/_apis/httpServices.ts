@@ -1,7 +1,5 @@
-// TODOTAB GET THIS FROM CONSTNAT
-const API_URL = 'http://localhost:8080/';
-
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { API_URL } from '../contants';
 
 const onFulfilled = (response: AxiosResponse) => {
 	return response;

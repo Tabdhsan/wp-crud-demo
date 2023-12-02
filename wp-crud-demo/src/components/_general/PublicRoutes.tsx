@@ -1,10 +1,10 @@
 import { useCookies } from 'react-cookie';
 import { Outlet, Navigate } from 'react-router-dom';
+import { MAIN_COOKIE } from '../../contants';
 
 const PublicRoutes = () => {
 	const [cookies] = useCookies();
-	const isAuthenticated =
-		!!cookies[import.meta.env.REACT_APP_MAIN_COOKIE ?? ''];
+	const isAuthenticated = !!cookies[MAIN_COOKIE ?? ''];
 	return !isAuthenticated ? <Outlet /> : <Navigate to='/' />;
 };
 

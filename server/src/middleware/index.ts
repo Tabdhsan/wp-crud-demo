@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { get, merge } from 'lodash';
 import { getUserBySessionTokenViaDB } from '../db/users';
-require('dotenv').config();
+import { MAIN_COOKIE } from '../constants';
 
 export const isAuthenticated = async (
 	req: Request,
@@ -9,7 +9,7 @@ export const isAuthenticated = async (
 	next: NextFunction
 ) => {
 	try {
-		const sessionToken = req.cookies[process.env.MAIN_COOKIE];
+		const sessionToken = req.cookies[MAIN_COOKIE];
 		if (!sessionToken) {
 			return response.status(403).send('Unauthenticated').end();
 		}

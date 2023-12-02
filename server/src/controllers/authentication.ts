@@ -9,10 +9,7 @@ import {
 } from '../db/users';
 import { hashThePass as getHashedValue, random } from '../helpers';
 import { UserRes } from 'db/types';
-require('dotenv').config();
-
-const MAIN_COOKIE = process.env.MAIN_COOKIE;
-const ID_COOKIE = process.env.ID_COOKIE;
+import { MAIN_COOKIE, ID_COOKIE } from '../constants';
 
 export const signup = async (req: Request, res: Response) => {
 	try {

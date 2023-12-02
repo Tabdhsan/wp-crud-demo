@@ -1,11 +1,10 @@
 import { useCookies } from 'react-cookie';
 import { Outlet, Navigate } from 'react-router-dom';
+import { MAIN_COOKIE } from '../../contants';
 
-// TODOTAB: Move process.env stuff to a constants file
 const ProtectedRoutes = () => {
 	const [cookies] = useCookies();
-	const isAuthenticated =
-		!!cookies[import.meta.env.VITE_APP_MAIN_COOKIE ?? ''];
+	const isAuthenticated = !!cookies[MAIN_COOKIE ?? ''];
 	return isAuthenticated ? <Outlet /> : <Navigate to='/auth' />;
 };
 

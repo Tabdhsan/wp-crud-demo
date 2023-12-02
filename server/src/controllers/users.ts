@@ -9,7 +9,7 @@ import {
 	updateUserByIdViaDB,
 } from '../db/users';
 import { UserReqType } from 'db/types';
-require('dotenv').config();
+import { MAIN_COOKIE, ID_COOKIE } from '../constants';
 
 export const getAllUsers = async (req: Request, res: Response) => {
 	try {
@@ -26,8 +26,8 @@ export const deleteUser = async (req: Request, res: Response) => {
 		const { id } = req.params;
 		await deleteUserByIdViaDB(parseInt(id));
 
-		res.clearCookie(process.env.MAIN_COOKIE);
-		res.clearCookie(process.env.ID_COOKIE);
+		res.clearCookie(MAIN_COOKIE);
+		res.clearCookie(ID_COOKIE);
 
 		return res
 			.status(200)

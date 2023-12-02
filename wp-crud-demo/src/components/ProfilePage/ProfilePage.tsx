@@ -14,6 +14,7 @@ import {
 import { User } from '../../_apis/apiTypes';
 import { Card, Grid } from '@mui/material';
 import { useCookies } from 'react-cookie';
+import { ID_COOKIE } from '../../contants';
 
 const ProfilePage = () => {
 	const params = useParams();
@@ -32,9 +33,7 @@ const ProfilePage = () => {
 	];
 
 	const isSelf =
-		!!params.id &&
-		parseInt(params.id) ===
-			cookies[import.meta.env.REACT_APP_ID_COOKIE ?? ''];
+		!!params.id && parseInt(params.id) === cookies[ID_COOKIE ?? ''];
 
 	useEffect(() => {
 		if (!params.id) return;

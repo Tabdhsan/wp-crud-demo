@@ -3,13 +3,14 @@ import { AccountCircle, Settings, ExitToApp } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { signoutApi } from '../../_apis/authentication';
 import { useCookies } from 'react-cookie';
+import { ID_COOKIE } from '../../contants';
 
 const NavBar = () => {
 	const navigate = useNavigate();
 	const [cookies] = useCookies();
 
 	const navigateToUserPage = () => {
-		const profileId = cookies[process.env.VITE_APP_ID_COOKIE ?? ''];
+		const profileId = cookies[ID_COOKIE ?? ''];
 		if (!profileId) return;
 		navigate(`/profile/${profileId}`);
 	};

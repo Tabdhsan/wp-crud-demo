@@ -1,7 +1,6 @@
 import './UserCard.css';
 import { Card, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
 
 interface UserCardProps {
 	id: number;
@@ -15,8 +14,6 @@ const UserCard = (props: UserCardProps) => {
 	const handleClick = () => {
 		navigate(`/profile/${id}`);
 	};
-
-	// TODOTAB: Look into inline vs css file for cleanup
 
 	return (
 		<Card className='userCard grow' onClick={handleClick} sx={{ pb: 3 }}>
