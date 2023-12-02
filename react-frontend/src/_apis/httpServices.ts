@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { API_URL } from '../constants';
+import { API_URL } from '../utils/envConstants';
 
 const onFulfilled = (response: AxiosResponse) => {
 	return response;

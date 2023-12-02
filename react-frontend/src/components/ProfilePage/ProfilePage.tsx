@@ -14,17 +14,27 @@ import {
 import { User } from '../../_apis/apiTypes';
 import { Card, Grid } from '@mui/material';
 import { useCookies } from 'react-cookie';
-import { ID_COOKIE } from '../../constants';
+import { ID_COOKIE } from '../../utils/envConstants';
 import UserNotFound from './UserNotFound';
+import { alphanumericValidation } from '../../utils/validationConstants';
+import useNotification from '../../hooks/useNotification';
+import CustomNotification from '../_general/Notifications';
+import AreYouSureDialog from '../_general/AreYouSureDialog';
 
 const ProfilePage = () => {
 	const params = useParams();
 	const [cookies] = useCookies();
+	const { notificationInfo, showNotification, hideNotification } =
+		useNotification();
 
 	const [curUser, setCurUser] = useState<User | null>(null);
 	const [isEditMode, setIsEditMode] = useState(false);
+	const [dialogOpen, setDialogOpen] = useState(false);
 
-	// these would be state
+	const isSelf =
+		!!params.id && parseInt(params.id) === cookies[ID_COOKIE ?? ''];
+
+	// These would be also editable in the future
 	const curTab = 'Profile';
 	const tabs = ['Profile', 'Notifications', 'Messages', 'Settings'];
 	const hobbies = [
@@ -32,18 +42,6 @@ const ProfilePage = () => {
 		'Playing Video Games',
 		'Petting Their Dog',
 	];
-
-	const isSelf =
-		!!params.id && parseInt(params.id) === cookies[ID_COOKIE ?? ''];
-
-	useEffect(() => {
-		if (!params.id) return;
-		getUserByIdApi(params?.id)
-			.then(res => {
-				setCurUser(res.data);
-			})
-			.catch(err => console.log(err));
-	}, [params]);
 
 	const enterEditMode = () => {
 		setIsEditMode(true);
@@ -53,11 +51,24 @@ const ProfilePage = () => {
 		setIsEditMode(false);
 	};
 
+	const openDialog = () => {
+		setDialogOpen(true);
+	};
+
+	const closeDialog = () => {
+		setDialogOpen(false);
+	};
+
 	const deleteUser = () => {
 		if (!params.id) return;
 		deleteUserByIdApi(params.id)
 			.then(() => {})
 			.catch(err => console.log(err));
+	};
+
+	const onDelete = () => {
+		deleteUser();
+		closeDialog();
 	};
 
 	const profileFormik = useFormik<ProfileFormik>({
@@ -68,23 +79,38 @@ const ProfilePage = () => {
 			lastname: curUser?.lastname || '',
 			description: curUser?.description || '',
 		},
-		validationSchema: Yup.object({}),
+		validationSchema: Yup.object({
+			username: alphanumericValidation,
+			firstname: alphanumericValidation,
+			lastname: alphanumericValidation,
+			description: Yup.string().notRequired(),
+		}),
 		onSubmit: async values => {
 			if (!params.id) return;
-			// Add a delay of 2 seconds (2000 milliseconds)
-			await new Promise(resolve => setTimeout(resolve, 2000)); // TODOTAB: Remove this artificial delay and add waiting indicator
+
 			updateUserByIdApi(params.id, values)
 				.then(res => {
 					setCurUser(res.data);
 					exitEditMode();
+					showNotification('User updated successfully!', 'success');
 				})
-				.catch(err => console.log(err));
+				.catch(err => {
+					showNotification(err, 'error');
+				});
 		},
 	});
 
-	const { handleSubmit, getFieldProps } = profileFormik;
+	const { handleSubmit, getFieldProps, touched, errors } = profileFormik;
 
-	//TODOTAB: Handle this better ?
+	useEffect(() => {
+		if (!params.id) return;
+		getUserByIdApi(params?.id)
+			.then(res => {
+				setCurUser(res.data);
+			})
+			.catch(err => console.log(err));
+	}, [params]);
+
 	if (!curUser)
 		return (
 			<>
@@ -95,6 +121,18 @@ const ProfilePage = () => {
 
 	return (
 		<Stack>
+			<CustomNotification
+				open={notificationInfo.open}
+				onClose={hideNotification}
+				message={notificationInfo.message}
+				severity={notificationInfo.severity}
+			/>
+			<AreYouSureDialog
+				open={dialogOpen}
+				onClose={closeDialog}
+				onDelete={onDelete}
+			/>
+
 			<NavBar />
 			<FormikProvider value={profileFormik}>
 				<Form noValidate onSubmit={handleSubmit}>
@@ -130,9 +168,8 @@ const ProfilePage = () => {
 									>
 										EDIT PROFILE
 									</Typography>
-									{/* TODOTAB: Add are you sure dialog */}
 									<Typography
-										onClick={deleteUser}
+										onClick={openDialog}
 										sx={{
 											color: 'red',
 											opacity: 0.7,
@@ -184,6 +221,14 @@ const ProfilePage = () => {
 														{...getFieldProps(
 															'firstname'
 														)}
+														error={Boolean(
+															touched.firstname &&
+																errors.firstname
+														)}
+														helperText={
+															touched.firstname &&
+															errors.firstname
+														}
 													/>
 													<TextField
 														sx={{ width: '50%' }}
@@ -191,6 +236,14 @@ const ProfilePage = () => {
 														{...getFieldProps(
 															'lastname'
 														)}
+														error={Boolean(
+															touched.lastname &&
+																errors.lastname
+														)}
+														helperText={
+															touched.lastname &&
+															errors.lastname
+														}
 													/>
 												</Stack>
 												<TextField
@@ -198,12 +251,28 @@ const ProfilePage = () => {
 													{...getFieldProps(
 														'username'
 													)}
+													error={Boolean(
+														touched.username &&
+															errors.username
+													)}
+													helperText={
+														touched.username &&
+														errors.username
+													}
 												/>
 												<TextField
 													label='Description'
 													{...getFieldProps(
 														'description'
 													)}
+													error={Boolean(
+														touched.description &&
+															errors.description
+													)}
+													helperText={
+														touched.description &&
+														errors.description
+													}
 												/>
 
 												<Stack

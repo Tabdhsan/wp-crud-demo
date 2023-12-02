@@ -9,6 +9,7 @@ import { signinApi, signupApi } from '../../_apis/authentication';
 import { UserSignInReq } from '../../_apis/apiTypes';
 import { useNavigate } from 'react-router-dom';
 import useNotification from '../../hooks/useNotification';
+import { alphanumericValidation } from '../../utils/validationConstants';
 
 const AuthPage = () => {
 	const { search } = useLocation();
@@ -25,6 +26,10 @@ const AuthPage = () => {
 		: 'Do not have an account? Sign up here!';
 	const linkTo = isSignupMode ? '/auth' : `/auth?mode=${AuthTypes.SIGN_UP}`;
 
+	const nameValidation = isSignupMode
+		? alphanumericValidation
+		: Yup.string().notRequired();
+
 	const authFormik = useFormik<AuthFormik>({
 		enableReinitialize: true,
 		initialValues: {
@@ -34,14 +39,10 @@ const AuthPage = () => {
 			lastname: '',
 		},
 		validationSchema: Yup.object({
-			username: Yup.string().required('Required'),
+			username: alphanumericValidation,
 			password: Yup.string().required('Required'),
-			firstname: isSignupMode
-				? Yup.string().required('Required')
-				: Yup.string().notRequired(),
-			lastname: isSignupMode
-				? Yup.string().required('Required')
-				: Yup.string().notRequired(),
+			firstname: nameValidation,
+			lastname: nameValidation,
 		}),
 		onSubmit: async values => {
 			if (isSignupMode) {

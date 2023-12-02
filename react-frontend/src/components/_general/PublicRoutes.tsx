@@ -1,6 +1,6 @@
 import { useCookies } from 'react-cookie';
 import { Outlet, Navigate } from 'react-router-dom';
-import { MAIN_COOKIE } from '../../constants';
+import { MAIN_COOKIE } from '../../utils/envConstants';
 
 const PublicRoutes = () => {
 	const [cookies] = useCookies();
