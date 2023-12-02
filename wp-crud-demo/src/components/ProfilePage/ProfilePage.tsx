@@ -72,7 +72,7 @@ const ProfilePage = () => {
 		onSubmit: async values => {
 			if (!params.id) return;
 			// Add a delay of 2 seconds (2000 milliseconds)
-			await new Promise(resolve => setTimeout(resolve, 2000)); // TODOTAB: Remove this artificial delay
+			await new Promise(resolve => setTimeout(resolve, 2000)); // TODOTAB: Remove this artificial delay and add waiting indicator
 			updateUserByIdApi(params.id, values)
 				.then(res => {
 					setCurUser(res.data);

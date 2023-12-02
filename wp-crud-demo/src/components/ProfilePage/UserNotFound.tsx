@@ -17,11 +17,13 @@ const UserNotFound = () => {
 						that user. Go back to the home to find all the best
 						users
 					</Typography>
-					<img
-						className='fourOhFour2'
-						alt='Upload a profile pic!'
-						src='../../../public/UhOh.png'
-					/>
+					<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>
+						<img
+							className='fourOhFour2'
+							alt='Upload a profile pic!'
+							src='../../../public/UhOh.png'
+						/>
+					</a>
 				</Stack>
 			</Grid>
 		</Grid>
