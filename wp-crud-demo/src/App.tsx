@@ -17,8 +17,6 @@ function App() {
 			<Route element={<PublicRoutes />}>
 				<Route path='/auth' element={<AuthPage />} />
 			</Route>
-			{/* TODOTAB: Look into where to add the navbar */}
-			{/* TODOTAB: Look into :id vs query param */}
 		</Routes>
 	);
 }

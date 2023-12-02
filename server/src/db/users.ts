@@ -82,7 +82,6 @@ export const updateUserByIdViaDB = async (
 	id: number,
 	user: Partial<UserReq>
 ) => {
-	// TODOTAB: Look and discuss SQL injections
 	const validFields = [
 		'username',
 		'password',

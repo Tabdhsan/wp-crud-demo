@@ -9,6 +9,10 @@ import {
 } from '../db/users';
 import { hashThePass as getHashedValue, random } from '../helpers';
 import { UserRes } from 'db/types';
+require('dotenv').config();
+
+const MAIN_COOKIE = process.env.MAIN_COOKIE;
+const ID_COOKIE = process.env.ID_COOKIE;
 
 export const signup = async (req: Request, res: Response) => {
 	try {
@@ -40,8 +44,8 @@ export const signup = async (req: Request, res: Response) => {
 		const sessionToken = getHashedValue(sessionSalt, salt);
 		await updateUserSessionTokenById(createdUser.id, sessionToken);
 
-		res.cookie('wp-crud-demo-cookie', sessionToken);
-		res.cookie('wp-crud-demo-profileid', createdUser.id);
+		res.cookie(MAIN_COOKIE, sessionToken);
+		res.cookie(ID_COOKIE, createdUser.id);
 
 		return res.status(201).send(createdUser).end();
 	} catch (err) {
@@ -78,11 +82,11 @@ export const signin = async (req: Request, res: Response) => {
 		const sessionSalt = random();
 		const sessionToken = getHashedValue(sessionSalt, user.salt);
 		updateUserSessionTokenById(user.id, sessionToken);
-		res.cookie('wp-crud-demo-cookie', sessionToken, {
+		res.cookie(MAIN_COOKIE, sessionToken, {
 			domain: 'localhost',
 			path: '/',
 		});
-		res.cookie('wp-crud-demo-profileid', user.id);
+		res.cookie(ID_COOKIE, user.id);
 
 		let userRes: UserRes = {
 			id: user.id,
@@ -102,11 +106,11 @@ export const signin = async (req: Request, res: Response) => {
 
 export const signout = async (req: Request, res: Response) => {
 	try {
-		const sessionToken = req.cookies['wp-crud-demo-cookie'];
+		const sessionToken = req.cookies[MAIN_COOKIE];
 		const user = await getUserBySessionTokenViaDB(sessionToken);
 		updateUserSessionTokenById(user.id, null);
-		res.clearCookie('wp-crud-demo-cookie');
-		res.clearCookie('wp-crud-demo-profileid');
+		res.clearCookie(MAIN_COOKIE);
+		res.clearCookie(ID_COOKIE);
 		return res.status(200).end();
 	} catch (err) {
 		console.error(err);

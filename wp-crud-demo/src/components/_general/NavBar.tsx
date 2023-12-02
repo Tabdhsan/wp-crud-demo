@@ -8,12 +8,9 @@ const NavBar = () => {
 	const navigate = useNavigate();
 	const [cookies] = useCookies();
 
-	// TODOTAB: Move cookei name to env variable
 	const navigateToUserPage = () => {
-		const profileId = cookies['wp-crud-demo-profileid'];
-		console.log('outside');
+		const profileId = cookies[process.env.VITE_APP_ID_COOKIE ?? ''];
 		if (!profileId) return;
-		console.log('inside');
 		navigate(`/profile/${profileId}`);
 	};
 
@@ -31,7 +28,7 @@ const NavBar = () => {
 			<Toolbar>
 				{/* Left side with logo and name */}
 				<Stack
-					style={{
+					sx={{
 						display: 'flex',
 						alignItems: 'center',
 						flexGrow: 1,

@@ -1,5 +1,4 @@
-// const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // TODOTAB: move this to the ENV
-
+// TODOTAB GET THIS FROM CONSTNAT
 const API_URL = 'http://localhost:8080/';
 
 import axios, { AxiosError, AxiosResponse } from 'axios';
@@ -22,7 +21,6 @@ const userService = axios.create({
 	withCredentials: true,
 });
 
-// TODOTAB: Does this code even work?
 authService.interceptors.response.use(onFulfilled, onRejected);
 userService.interceptors.response.use(onFulfilled, onRejected);
 

@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { get, merge } from 'lodash';
 import { getUserBySessionTokenViaDB } from '../db/users';
+require('dotenv').config();
 
 export const isAuthenticated = async (
 	req: Request,
@@ -8,10 +9,7 @@ export const isAuthenticated = async (
 	next: NextFunction
 ) => {
 	try {
-		console.log('CHECKING IF USER IS AUTHENTICATED');
-		// TODOTAB: put cookie name in env variable
-		const sessionToken = req.cookies['wp-crud-demo-cookie'];
-		console.log('session token below', sessionToken);
+		const sessionToken = req.cookies[process.env.MAIN_COOKIE];
 		if (!sessionToken) {
 			return response.status(403).send('Unauthenticated').end();
 		}

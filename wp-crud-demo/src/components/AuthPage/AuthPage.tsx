@@ -1,4 +1,3 @@
-// TODOTAB CHECK THIS
 import { useState } from 'react';
 import { Stack, TextField, Typography, Button, Card } from '@mui/material';
 import { useLocation } from 'react-router-dom';
@@ -43,7 +42,6 @@ const AuthPage = () => {
 			firstname: '',
 			lastname: '',
 		},
-		// TODOTAB: Need more robust FE validation
 		validationSchema: Yup.object({
 			username: Yup.string().required('Required'),
 			password: Yup.string().required('Required'),
@@ -59,14 +57,13 @@ const AuthPage = () => {
 
 			if (isSignupMode) {
 				signupApi(values)
-					.then(res => {
-						console.log('res', res);
+					.then(() => {
 						setNotificationInfo({
 							open: true,
 							message: 'User created successfully!',
 							severity: 'success',
 						});
-						// navigate('/');
+						navigate('/');
 					})
 					.catch(() => {
 						setNotificationInfo({
@@ -82,18 +79,15 @@ const AuthPage = () => {
 				};
 
 				signinApi(signinValues)
-					.then(res => {
-						console.log('sign in res', res);
+					.then(() => {
 						setNotificationInfo({
 							open: true,
 							message: 'Login successful!',
 							severity: 'success',
 						});
-						console.log('resres', res);
 						navigate('/');
 					})
-					.catch(err => {
-						console.log('sign up err', err);
+					.catch(() => {
 						setNotificationInfo({
 							open: true,
 							message: 'Login failed!',

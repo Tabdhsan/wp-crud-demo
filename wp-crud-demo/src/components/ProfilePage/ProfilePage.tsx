@@ -17,12 +17,10 @@ import { useCookies } from 'react-cookie';
 
 const ProfilePage = () => {
 	const params = useParams();
+	const [cookies] = useCookies();
 
-	// TODOTAB: Should this be a state?
-	// Also add the type
 	const [curUser, setCurUser] = useState<User | null>(null);
 	const [isEditMode, setIsEditMode] = useState(false);
-	const [cookies] = useCookies();
 
 	// these would be state
 	const curTab = 'Profile';
@@ -33,10 +31,10 @@ const ProfilePage = () => {
 		'Petting Their Dog',
 	];
 
-	// should actually be returned from api call
 	const isSelf =
 		!!params.id &&
-		parseInt(params.id) === cookies['wp-crud-demo-profileid'];
+		parseInt(params.id) ===
+			cookies[import.meta.env.REACT_APP_ID_COOKIE ?? ''];
 
 	useEffect(() => {
 		if (!params.id) return;
@@ -58,12 +56,7 @@ const ProfilePage = () => {
 	const deleteUser = () => {
 		if (!params.id) return;
 		deleteUserByIdApi(params.id)
-			.then(({ data }) => {
-				console.log(data);
-				console.log('deleted');
-
-				// TODOTAB: Redirect to home page
-			})
+			.then(() => {})
 			.catch(err => console.log(err));
 	};
 
@@ -82,13 +75,10 @@ const ProfilePage = () => {
 			await new Promise(resolve => setTimeout(resolve, 2000)); // TODOTAB: Remove this artificial delay
 			updateUserByIdApi(params.id, values)
 				.then(res => {
-					console.log('result', res);
 					setCurUser(res.data);
 					exitEditMode();
 				})
 				.catch(err => console.log(err));
-
-			console.log('submit values', values);
 		},
 	});
 
@@ -100,13 +90,13 @@ const ProfilePage = () => {
 		return (
 			<>
 				<NavBar />
+				{/* TODOTAB: MAke this better */}
 				<div>User Not Found</div>;
 			</>
 		);
 
 	return (
 		<Stack>
-			{/* TODOTAB: Where should navbar be? */}
 			<NavBar />
 			<FormikProvider value={profileFormik}>
 				<Form noValidate onSubmit={handleSubmit}>
@@ -218,7 +208,6 @@ const ProfilePage = () => {
 													)}
 												/>
 
-												{/* TODOTAB: See if this is used else where */}
 												<Stack
 													direction='row'
 													gap={1}

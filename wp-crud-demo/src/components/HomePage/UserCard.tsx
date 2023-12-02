@@ -1,6 +1,7 @@
 import './UserCard.css';
 import { Card, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 interface UserCardProps {
 	id: number;
@@ -11,7 +12,6 @@ const UserCard = (props: UserCardProps) => {
 	const { id, name } = props;
 	const navigate = useNavigate();
 
-	//TODOTAB: type for event: React.MouseEvent<HTMLDivElement, MouseEvent>
 	const handleClick = () => {
 		navigate(`/profile/${id}`);
 	};

@@ -9,6 +9,7 @@ import {
 	updateUserByIdViaDB,
 } from '../db/users';
 import { UserReqType } from 'db/types';
+require('dotenv').config();
 
 export const getAllUsers = async (req: Request, res: Response) => {
 	try {
@@ -22,12 +23,11 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
 	try {
-		console.log('WE HAVE HIT THIS ENDPOINT');
 		const { id } = req.params;
 		await deleteUserByIdViaDB(parseInt(id));
 
-		res.clearCookie('wp-crud-demo-cookie');
-		res.clearCookie('wp-crud-demo-profileid');
+		res.clearCookie(process.env.MAIN_COOKIE);
+		res.clearCookie(process.env.ID_COOKIE);
 
 		return res
 			.status(200)

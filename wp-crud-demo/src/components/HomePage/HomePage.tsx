@@ -9,9 +9,6 @@ import { User } from '../../_apis/apiTypes';
 const HomePage = () => {
 	const [allUsers, setAllUsers] = useState<User[]>([]);
 
-	// TODOTAB: These types need to be fixed
-	// The API type should have a wrapper at least
-	// Look into axios props
 	useEffect(() => {
 		if (allUsers.length > 0) return;
 		getAllUsersApi()
@@ -24,7 +21,6 @@ const HomePage = () => {
 	return (
 		<Stack>
 			<NavBar />
-			{/* TODOTAB: This needs min width and also responsiveness */}
 			<Grid
 				container
 				alignItems='center'

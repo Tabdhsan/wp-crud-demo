@@ -11,12 +11,11 @@ import { initializeDb } from './db';
 const app = express();
 initializeDb();
 
-// TODOTAB: Be able to explain cors
 // Express API calls
 app.use(
 	cors({
 		credentials: true,
-		origin: [, 'http://localhost:3000', 'http://localhost:3001'],
+		origin: ['http://localhost:3000', 'http://localhost:3001'],
 	})
 );
 
