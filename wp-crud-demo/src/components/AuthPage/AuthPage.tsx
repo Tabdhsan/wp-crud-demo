@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Stack, TextField, Typography, Button, Card } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { AuthFormik, AuthTypes } from './AuthTypes';
@@ -9,10 +8,13 @@ import CustomNotification from '../_general/Notifications';
 import { signinApi, signupApi } from '../../_apis/authentication';
 import { UserSignInReq } from '../../_apis/apiTypes';
 import { useNavigate } from 'react-router-dom';
+import useNotification from '../../hooks/useNotification';
 
 const AuthPage = () => {
 	const { search } = useLocation();
 	const navigate = useNavigate();
+	const { notificationInfo, showNotification, hideNotification } =
+		useNotification();
 
 	const queryParams = new URLSearchParams(search);
 	const isSignupMode = queryParams.get('mode') === AuthTypes.SIGN_UP;
@@ -22,17 +24,6 @@ const AuthPage = () => {
 		? 'Already have an account? Login here!'
 		: 'Do not have an account? Sign up here!';
 	const linkTo = isSignupMode ? '/auth' : `/auth?mode=${AuthTypes.SIGN_UP}`;
-
-	// TODOTAB: Move this to hook?
-	const [notificationInfo, setNotificationInfo] = useState<{
-		open: boolean;
-		message: string;
-		severity: 'success' | 'info' | 'warning' | 'error';
-	}>({
-		open: false,
-		message: '',
-		severity: 'success',
-	});
 
 	const authFormik = useFormik<AuthFormik>({
 		enableReinitialize: true,
@@ -56,19 +47,14 @@ const AuthPage = () => {
 			if (isSignupMode) {
 				signupApi(values)
 					.then(() => {
-						setNotificationInfo({
-							open: true,
-							message: 'User created successfully!',
-							severity: 'success',
-						});
+						showNotification(
+							'User created successfully!',
+							'success'
+						);
 						navigate('/');
 					})
 					.catch(() => {
-						setNotificationInfo({
-							open: true,
-							message: 'User creation failed!',
-							severity: 'error',
-						});
+						showNotification('User creation failed!', 'error');
 					});
 			} else {
 				const signinValues: UserSignInReq = {
@@ -78,19 +64,11 @@ const AuthPage = () => {
 
 				signinApi(signinValues)
 					.then(() => {
-						setNotificationInfo({
-							open: true,
-							message: 'Login successful!',
-							severity: 'success',
-						});
+						showNotification('Login successful!', 'success');
 						navigate('/');
 					})
 					.catch(() => {
-						setNotificationInfo({
-							open: true,
-							message: 'Login failed!',
-							severity: 'error',
-						});
+						showNotification('Login failed!', 'error');
 					});
 			}
 		},
@@ -112,12 +90,7 @@ const AuthPage = () => {
 			<FormikProvider value={authFormik}>
 				<CustomNotification
 					open={notificationInfo.open}
-					onClose={() =>
-						setNotificationInfo({
-							...notificationInfo,
-							open: false,
-						})
-					}
+					onClose={hideNotification}
 					message={notificationInfo.message}
 					severity={notificationInfo.severity}
 				/>
