@@ -21,7 +21,7 @@ const UserNotFound = () => {
 						<img
 							className='fourOhFour2'
 							alt='Upload a profile pic!'
-							src='../../../public/UhOh.png'
+							src='/UhOh.png'
 						/>
 					</a>
 				</Stack>

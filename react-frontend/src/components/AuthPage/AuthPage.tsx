@@ -53,8 +53,8 @@ const AuthPage = () => {
 						);
 						navigate('/');
 					})
-					.catch(() => {
-						showNotification('User creation failed!', 'error');
+					.catch(err => {
+						showNotification(err, 'error');
 					});
 			} else {
 				const signinValues: UserSignInReq = {
@@ -67,8 +67,9 @@ const AuthPage = () => {
 						showNotification('Login successful!', 'success');
 						navigate('/');
 					})
-					.catch(() => {
-						showNotification('Login failed!', 'error');
+					.catch(err => {
+						console.log(err);
+						showNotification(err, 'error');
 					});
 			}
 		},
