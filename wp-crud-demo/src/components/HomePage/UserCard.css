@@ -1,21 +1,21 @@
 .userCard {
-     max-width: 15rem;
-     min-width: 10rem;
-     margin: auto;
-     cursor: pointer;
-     text-align: center;
-     border-radius: 1rem !important;
-     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+	max-width: 15rem;
+	min-width: 10rem;
+	margin: auto;
+	cursor: pointer;
+	text-align: center;
+	border-radius: 1rem !important;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
 }
 
-.grow { 
-    transition: all .3s ease-in-out !important; 
+.grow {
+	transition: all 0.3s ease-in-out !important;
 }
-    
-.grow:hover { 
-    transform: scale(1.05); 
+
+.grow:hover {
+	transform: scale(1.05);
 }
 
 .profilePic {
-    margin: 2rem;
+	margin: 2rem;
 }

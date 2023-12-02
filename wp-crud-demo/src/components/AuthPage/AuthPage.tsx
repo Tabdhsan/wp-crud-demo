@@ -53,8 +53,6 @@ const AuthPage = () => {
 				: Yup.string().notRequired(),
 		}),
 		onSubmit: async values => {
-			// Add a delay of 2 seconds (2000 milliseconds)
-
 			if (isSignupMode) {
 				signupApi(values)
 					.then(() => {

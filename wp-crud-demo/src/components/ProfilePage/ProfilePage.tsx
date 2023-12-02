@@ -85,12 +85,10 @@ const ProfilePage = () => {
 	const { handleSubmit, getFieldProps } = profileFormik;
 
 	//TODOTAB: Handle this better ?
-	// TODOTAB: Maybe check if a 404 was returned from the API
 	if (!curUser)
 		return (
 			<>
 				<NavBar />
-				{/* TODOTAB: MAke this better */}
 				<UserNotFound />
 			</>
 		);

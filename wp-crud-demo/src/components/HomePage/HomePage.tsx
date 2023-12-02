@@ -4,7 +4,6 @@ import UserCard from './UserCard';
 import { useState, useEffect } from 'react';
 import { getAllUsersApi } from '../../_apis/users';
 import { User } from '../../_apis/apiTypes';
-// import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
 	const [allUsers, setAllUsers] = useState<User[]>([]);
