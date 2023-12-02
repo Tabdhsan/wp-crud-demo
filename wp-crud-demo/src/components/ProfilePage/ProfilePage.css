@@ -1,0 +1,27 @@
+.inactive {
+	opacity: 50%;
+}
+
+.profileCard {
+	border-radius: 1rem !important;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+	min-width: 15rem;
+}
+
+.profileHobby {
+	background-color: aliceblue;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+}
+
+.profilePic {
+	border-radius: 100%;
+	max-width: '100%';
+}
+
+@media screen and (max-width: 600px) {
+	.tabStack,
+	.editButtons {
+		text-align: center;
+	}
+}

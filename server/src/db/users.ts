@@ -113,7 +113,6 @@ export const updateUserByIdViaDB = async (
 /// Auth Code Below //
 //////////////////////
 
-// TODOTAB: Might not be used
 export const getUserBySessionTokenViaDB = async (
 	sessionToken: string
 ): Promise<User> => {

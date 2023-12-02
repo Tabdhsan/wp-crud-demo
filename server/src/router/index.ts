@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { signin, signup } from '../controllers/authentication';
+import { signin, signout, signup } from '../controllers/authentication';
 import {
 	deleteUser,
 	getAllUsers,
@@ -19,6 +19,7 @@ const customRouter = (): Router => {
 	router.delete('/users/:id', isAuthenticated, isAuthorized, deleteUser);
 	router.get('/users/:id', isAuthenticated, getUserById);
 	router.patch('/users/:id', isAuthenticated, isAuthorized, updateUser);
+	router.post('/auth/signout', isAuthenticated, signout);
 	return router;
 };
 

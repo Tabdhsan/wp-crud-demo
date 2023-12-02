@@ -1,3 +1,5 @@
+import { AxiosResponse } from 'axios';
+
 export type User = {
 	id: number;
 	username: string;
@@ -17,3 +19,8 @@ export type UserSignUpReq = Omit<
 export type UserSignUpRes = Omit<User, 'password' | 'sessionToken'>;
 
 export type UserSignInReq = Pick<User, 'username' | 'password'>;
+
+export type CustomAxiosResponse = Pick<
+	AxiosResponse,
+	'data' | 'status' | 'statusText'
+>;

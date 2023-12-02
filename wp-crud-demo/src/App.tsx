@@ -3,17 +3,24 @@ import './App.css';
 import AuthPage from './components/AuthPage/AuthPage';
 import HomePage from './components/HomePage/HomePage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
+import ProtectedRoutes from './components/_general/ProtectedRoutes';
+import PublicRoutes from './components/_general/PublicRoutes';
 
 function App() {
 	return (
 		<Routes>
-			<Route path='/auth' element={<AuthPage />} />
+			<Route element={<ProtectedRoutes />}>
+				<Route path='/' element={<HomePage />} />
+				<Route path='/profile/:id' element={<ProfilePage />} />
+			</Route>
+
+			<Route element={<PublicRoutes />}>
+				<Route path='/auth' element={<AuthPage />} />
+			</Route>
 			{/* TODOTAB: Look into where to add the navbar */}
-			<Route path='/' element={<HomePage />} />
 			{/* TODOTAB: Look into :id vs query param */}
-			<Route path='/profile/:id' element={<ProfilePage />} />
 		</Routes>
-	)
+	);
 }
 
 export default App;

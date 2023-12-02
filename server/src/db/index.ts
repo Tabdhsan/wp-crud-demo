@@ -1,12 +1,12 @@
 import mysql from 'mysql2';
+require('dotenv').config();
 
 // DB connection
 export const db = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	// TODOTAB: Should this be from an environment variable?
-	password: 'password',
-	database: 'wp_db_demo',
+	host: process.env.DB_HOST,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASS,
+	database: process.env.DB_NAME,
 });
 
 export const initializeDb = () => {

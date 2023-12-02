@@ -5,30 +5,12 @@ const API_URL = 'http://localhost:8080/';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 const onFulfilled = (response: AxiosResponse) => {
-	console.log('response', response);
-	return response?.data;
+	return response;
 };
 
 const onRejected = (error: AxiosError) => {
 	throw error?.response?.data;
 };
-
-// TODOTAB: LOOK AT WHAT TO DO WITH THIS
-// function onRejected(error: AxiosError) {
-// 	if (
-// 		error?.response?.status === 401 &&
-// 		error?.config?.url !== 'auth/login'
-// 	) {
-// 		setSession(null);
-// 		setRefreshToken(null);
-
-// 		clearAuthDataFromStorage();
-
-// 		window.location.reload();
-// 	}
-
-// 	throw error?.response?.data;
-// }
 
 const authService = axios.create({
 	baseURL: API_URL + 'auth/',

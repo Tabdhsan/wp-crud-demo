@@ -8,8 +8,10 @@ export const isAuthenticated = async (
 	next: NextFunction
 ) => {
 	try {
+		console.log('CHECKING IF USER IS AUTHENTICATED');
 		// TODOTAB: put cookie name in env variable
 		const sessionToken = req.cookies['wp-crud-demo-cookie'];
+		console.log('session token below', sessionToken);
 		if (!sessionToken) {
 			return response.status(403).send('Unauthenticated').end();
 		}

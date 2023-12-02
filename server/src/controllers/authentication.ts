@@ -5,6 +5,7 @@ import {
 	getUserByUsernameViaDB,
 	createUserViaDB,
 	updateUserSessionTokenById,
+	getUserBySessionTokenViaDB,
 } from '../db/users';
 import { hashThePass as getHashedValue, random } from '../helpers';
 import { UserRes } from 'db/types';
@@ -37,12 +38,10 @@ export const signup = async (req: Request, res: Response) => {
 		// Create session token for response
 		const sessionSalt = random();
 		const sessionToken = getHashedValue(sessionSalt, salt);
-		updateUserSessionTokenById(createdUser.id, sessionToken);
-		// TODOTAB: If things break add cookie options {
-		// 	domain: 'localhost',
-		// 	path: '/',
-		// } here
+		await updateUserSessionTokenById(createdUser.id, sessionToken);
+
 		res.cookie('wp-crud-demo-cookie', sessionToken);
+		res.cookie('wp-crud-demo-profileid', createdUser.id);
 
 		return res.status(201).send(createdUser).end();
 	} catch (err) {
@@ -79,14 +78,11 @@ export const signin = async (req: Request, res: Response) => {
 		const sessionSalt = random();
 		const sessionToken = getHashedValue(sessionSalt, user.salt);
 		updateUserSessionTokenById(user.id, sessionToken);
-		// TODOTAB: If things break add cookie options {
-		// 	domain: 'localhost',
-		// 	path: '/',
-		// } here
 		res.cookie('wp-crud-demo-cookie', sessionToken, {
 			domain: 'localhost',
 			path: '/',
 		});
+		res.cookie('wp-crud-demo-profileid', user.id);
 
 		let userRes: UserRes = {
 			id: user.id,
@@ -98,6 +94,20 @@ export const signin = async (req: Request, res: Response) => {
 		};
 
 		return res.status(200).send(userRes).end();
+	} catch (err) {
+		console.error(err);
+		return res.sendStatus(500);
+	}
+};
+
+export const signout = async (req: Request, res: Response) => {
+	try {
+		const sessionToken = req.cookies['wp-crud-demo-cookie'];
+		const user = await getUserBySessionTokenViaDB(sessionToken);
+		updateUserSessionTokenById(user.id, null);
+		res.clearCookie('wp-crud-demo-cookie');
+		res.clearCookie('wp-crud-demo-profileid');
+		return res.status(200).end();
 	} catch (err) {
 		console.error(err);
 		return res.sendStatus(500);

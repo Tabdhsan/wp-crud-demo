@@ -22,8 +22,13 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
 	try {
+		console.log('WE HAVE HIT THIS ENDPOINT');
 		const { id } = req.params;
 		await deleteUserByIdViaDB(parseInt(id));
+
+		res.clearCookie('wp-crud-demo-cookie');
+		res.clearCookie('wp-crud-demo-profileid');
+
 		return res
 			.status(200)
 			.send({
@@ -70,12 +75,13 @@ export const updateUser = async (req: Request, res: Response) => {
 		});
 
 		await updateUserByIdViaDB(parseInt(id), customBody);
-		return res
-			.status(200)
-			.send({
-				message: `User with id ${id} updated`,
-			})
-			.end();
+
+		const updateUser = {
+			...user,
+			...customBody,
+		};
+
+		return res.status(200).send(updateUser).end();
 	} catch (err) {
 		console.error(err);
 		return res.sendStatus(400);
