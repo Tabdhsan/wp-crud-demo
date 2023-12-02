@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { get, merge } from 'lodash';
 import { getUserBySessionTokenViaDB } from '../db/users';
 import { MAIN_COOKIE } from '../constants';
@@ -24,7 +24,6 @@ export const isAuthenticated = async (
 
 		return next();
 	} catch (err) {
-		console.error(err);
 		return response.sendStatus(400);
 	}
 };
@@ -44,7 +43,6 @@ export const isAuthorized = async (
 
 		return next();
 	} catch (err) {
-		console.error(err);
 		return response.sendStatus(400);
 	}
 };

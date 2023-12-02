@@ -16,7 +16,6 @@ export const signup = async (req: Request, res: Response) => {
 		const { username, password, firstname, lastname } = req.body;
 
 		if (!username || !password || !firstname || !lastname) {
-			console.error('Missing required fields');
 			return res.status(400).send('Missing required fields').end();
 		}
 
@@ -46,7 +45,6 @@ export const signup = async (req: Request, res: Response) => {
 
 		return res.status(201).send(createdUser).end();
 	} catch (err) {
-		console.error(err);
 		return res.sendStatus(500);
 	}
 };

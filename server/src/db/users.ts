@@ -1,13 +1,11 @@
-// import db?
-
 import { UserReqType as UserReq, UserRes } from './types';
 import { db } from './index';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import { User } from 'types';
 
-//////////////////////
-/// User Code Below //
-//////////////////////
+////////////////////////////
+/// User  CRUD Code Below //
+////////////////////////////
 
 export const getUsersViaDB = async (): Promise<UserRes[]> => {
 	let sqlQuery = `SELECT * FROM users`;
@@ -108,9 +106,9 @@ export const updateUserByIdViaDB = async (
 	return updateUser;
 };
 
-//////////////////////
-/// Auth Code Below //
-//////////////////////
+////////////////////////////
+/// User Auth Code Below //
+//////////////////////////
 
 export const getUserBySessionTokenViaDB = async (
 	sessionToken: string
