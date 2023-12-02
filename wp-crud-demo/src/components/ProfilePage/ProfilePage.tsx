@@ -14,7 +14,8 @@ import {
 import { User } from '../../_apis/apiTypes';
 import { Card, Grid } from '@mui/material';
 import { useCookies } from 'react-cookie';
-import { ID_COOKIE } from '../../contants';
+import { ID_COOKIE } from '../../constants';
+import UserNotFound from './UserNotFound';
 
 const ProfilePage = () => {
 	const params = useParams();
@@ -90,7 +91,7 @@ const ProfilePage = () => {
 			<>
 				<NavBar />
 				{/* TODOTAB: MAke this better */}
-				<div>User Not Found</div>;
+				<UserNotFound />
 			</>
 		);
 

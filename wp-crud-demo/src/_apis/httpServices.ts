@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { API_URL } from '../contants';
+import { API_URL } from '../constants';
 
 const onFulfilled = (response: AxiosResponse) => {
 	return response;

@@ -3,7 +3,7 @@ import { AccountCircle, Settings, ExitToApp } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { signoutApi } from '../../_apis/authentication';
 import { useCookies } from 'react-cookie';
-import { ID_COOKIE } from '../../contants';
+import { ID_COOKIE } from '../../constants';
 
 const NavBar = () => {
 	const navigate = useNavigate();
