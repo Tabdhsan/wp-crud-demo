@@ -19,7 +19,7 @@ const UserNotFound = () => {
 					</Typography>
 					<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>
 						<img
-							className='fourOhFour2'
+							className='fourOhFour'
 							alt='Upload a profile pic!'
 							src='/UhOh.png'
 						/>
