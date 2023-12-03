@@ -186,7 +186,6 @@ const ProfilePage = () => {
 								<Stack
 									className='tabStack'
 									spacing={1}
-									sx={{ margin: '2rem 3rem' }}
 								>
 									{tabs.map(tabName => (
 										<Typography
