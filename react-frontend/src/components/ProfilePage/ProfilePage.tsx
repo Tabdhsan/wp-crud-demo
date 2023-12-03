@@ -30,6 +30,7 @@ const ProfilePage = () => {
 	const [curUser, setCurUser] = useState<User | null>(null);
 	const [isEditMode, setIsEditMode] = useState(false);
 	const [dialogOpen, setDialogOpen] = useState(false);
+	const [loaded, setLoaded] = useState(false);
 
 	const isSelf =
 		!!params.id && parseInt(params.id) === cookies[ID_COOKIE ?? ''];
@@ -49,6 +50,12 @@ const ProfilePage = () => {
 
 	const exitEditMode = () => {
 		setIsEditMode(false);
+
+		// Reset edit fields
+		setFieldValue('username',curUser?.username)
+		setFieldValue('firstname',curUser?.firstname)
+		setFieldValue('lastname',curUser?.lastname)
+		setFieldValue('description',curUser?.description)
 	};
 
 	const openDialog = () => {
@@ -100,7 +107,7 @@ const ProfilePage = () => {
 		},
 	});
 
-	const { handleSubmit, getFieldProps, touched, errors } = profileFormik;
+	const { handleSubmit, getFieldProps, setFieldValue, touched, errors } = profileFormik;
 
 	useEffect(() => {
 		if (!params.id) return;
@@ -111,7 +118,7 @@ const ProfilePage = () => {
 			.catch(err => console.log(err));
 	}, [params]);
 
-	if (!curUser)
+	if (loaded && !curUser)
 		return (
 			<>
 				<NavBar />
@@ -134,6 +141,7 @@ const ProfilePage = () => {
 			/>
 
 			<NavBar />
+			{ (loaded && curUser) &&
 			<FormikProvider value={profileFormik}>
 				<Form noValidate onSubmit={handleSubmit}>
 					<Grid
@@ -159,23 +167,15 @@ const ProfilePage = () => {
 								>
 									<Typography
 										onClick={enterEditMode}
-										sx={{
-											color: 'blue',
-											opacity: 0.7,
-											fontSize: '0.75rem',
-											cursor: 'pointer',
-										}}
+										className='modifyProfileLink'
+										sx={{ color: 'blue' }}
 									>
 										EDIT PROFILE
 									</Typography>
 									<Typography
 										onClick={openDialog}
-										sx={{
-											color: 'red',
-											opacity: 0.7,
-											fontSize: '0.75rem',
-											cursor: 'pointer',
-										}}
+										className='modifyProfileLink'
+										sx={{ color: 'red' }}
 									>
 										DELETE PROFILE
 									</Typography>
@@ -337,6 +337,7 @@ const ProfilePage = () => {
 					</Grid>
 				</Form>
 			</FormikProvider>
+			}
 		</Stack>
 	);
 };
