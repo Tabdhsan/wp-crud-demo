@@ -17,7 +17,10 @@ const UserNotFound = () => {
 						that user. Go back to the home page to find all the best
 						users
 					</Typography>
-					<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>
+					<a
+						href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+						target='_blank'
+					>
 						<img
 							className='fourOhFour'
 							alt='Upload a profile pic!'

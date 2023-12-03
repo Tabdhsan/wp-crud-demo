@@ -9,7 +9,10 @@ import { signinApi, signupApi } from '../../_apis/authentication';
 import { UserSignInReq } from '../../_apis/apiTypes';
 import { useNavigate } from 'react-router-dom';
 import useNotification from '../../hooks/useNotification';
-import { alphanumericValidation } from '../../utils/validationConstants';
+import {
+	alphaValidation,
+	alphanumericValidation,
+} from '../../utils/validationConstants';
 
 const AuthPage = () => {
 	const { search } = useLocation();
@@ -27,7 +30,7 @@ const AuthPage = () => {
 	const linkTo = isSignupMode ? '/auth' : `/auth?mode=${AuthTypes.SIGN_UP}`;
 
 	const nameValidation = isSignupMode
-		? alphanumericValidation
+		? alphaValidation
 		: Yup.string().notRequired();
 
 	const authFormik = useFormik<AuthFormik>({

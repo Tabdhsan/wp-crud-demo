@@ -16,7 +16,10 @@ import { Card, Grid } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { ID_COOKIE } from '../../utils/envConstants';
 import UserNotFound from './UserNotFound';
-import { alphanumericValidation } from '../../utils/validationConstants';
+import {
+	alphaValidation,
+	alphanumericValidation,
+} from '../../utils/validationConstants';
 import useNotification from '../../hooks/useNotification';
 import CustomNotification from '../_general/Notifications';
 import AreYouSureDialog from '../_general/AreYouSureDialog/AreYouSureDialog';
@@ -52,10 +55,14 @@ const ProfilePage = () => {
 		setIsEditMode(false);
 
 		// Reset edit fields
-		setFieldValue('username',curUser?.username)
-		setFieldValue('firstname',curUser?.firstname)
-		setFieldValue('lastname',curUser?.lastname)
-		setFieldValue('description',curUser?.description)
+		setFieldValue('username', curUser?.username);
+		setFieldValue('firstname', curUser?.firstname);
+		setFieldValue('lastname', curUser?.lastname);
+		setFieldValue('description', curUser?.description);
+
+		// Reset errors
+		setTouched({});
+		setErrors({});
 	};
 
 	const openDialog = () => {
@@ -88,8 +95,8 @@ const ProfilePage = () => {
 		},
 		validationSchema: Yup.object({
 			username: alphanumericValidation,
-			firstname: alphanumericValidation,
-			lastname: alphanumericValidation,
+			firstname: alphaValidation,
+			lastname: alphaValidation,
 			description: Yup.string().notRequired(),
 		}),
 		onSubmit: async values => {
@@ -107,7 +114,15 @@ const ProfilePage = () => {
 		},
 	});
 
-	const { handleSubmit, getFieldProps, setFieldValue, touched, errors } = profileFormik;
+	const {
+		handleSubmit,
+		getFieldProps,
+		setFieldValue,
+		touched,
+		errors,
+		setTouched,
+		setErrors,
+	} = profileFormik;
 
 	useEffect(() => {
 		if (!params.id) return;
@@ -145,202 +160,212 @@ const ProfilePage = () => {
 			/>
 
 			<NavBar />
-			{ (loaded && curUser) &&
-			<FormikProvider value={profileFormik}>
-				<Form noValidate onSubmit={handleSubmit}>
-					<Grid
-						container
-						justifyContent='center'
-						sx={{ width: '100%' }}
-					>
-						<Grid item xs={8} sm={3}>
-							<Stack sx={{ width: '100%' }}>
+			{loaded && curUser && (
+				<FormikProvider value={profileFormik}>
+					<Form noValidate onSubmit={handleSubmit}>
+						<Grid
+							container
+							justifyContent='center'
+							sx={{ width: '100%' }}
+						>
+							<Grid item xs={8} sm={3}>
 								<Stack sx={{ width: '100%' }}>
-									<img
-										className='profilePic'
-										alt='Upload a profile pic!'
-										src='/blankProfPic.jpg'
-									/>
+									<Stack sx={{ width: '100%' }}>
+										<img
+											className='profilePic'
+											alt='Upload a profile pic!'
+											src='/blankProfPic.jpg'
+										/>
+									</Stack>
 								</Stack>
-							</Stack>
 
-							{isSelf && (
-								<Stack
-									className='editButtons'
-									sx={{ margin: '1rem 3rem' }}
-								>
-									<Typography
-										onClick={enterEditMode}
-										className='modifyProfileLink'
-										sx={{ color: 'blue' }}
+								{isSelf && (
+									<Stack
+										className='editButtons'
+										sx={{ margin: '1rem 3rem' }}
 									>
-										EDIT PROFILE
-									</Typography>
-									<Typography
-										onClick={openDialog}
-										className='modifyProfileLink'
-										sx={{ color: 'red' }}
-									>
-										DELETE PROFILE
-									</Typography>
-								</Stack>
-							)}
-
-							{isSelf && (
-								<Stack
-									className='tabStack'
-									spacing={1}
-								>
-									{tabs.map(tabName => (
 										<Typography
-											className={
-												curTab == tabName
-													? 'active'
-													: 'inactive'
-											}
-											sx={{ cursor: 'pointer' }}
-											variant='h6'
-											key={tabName}
+											onClick={enterEditMode}
+											className='modifyProfileLink'
+											sx={{ color: 'blue' }}
 										>
-											{tabName}
+											EDIT PROFILE
 										</Typography>
-									))}
-								</Stack>
-							)}
-						</Grid>
-						<Grid item xs={12} sm={9}>
-							<Stack spacing={3} sx={{ margin: '2rem 4rem' }}>
-								<Card className='profileCard'>
-									<Stack gap={2} p={2}>
-										{isEditMode ? (
-											<Stack gap={2}>
-												<Stack
-													spacing={1}
-													direction='row'
-												>
-													<TextField
-														sx={{ width: '50%' }}
-														label='First Name'
-														{...getFieldProps(
-															'firstname'
-														)}
-														error={Boolean(
-															touched.firstname &&
-																errors.firstname
-														)}
-														helperText={
-															touched.firstname &&
-															errors.firstname
-														}
-													/>
-													<TextField
-														sx={{ width: '50%' }}
-														label='Last Name'
-														{...getFieldProps(
-															'lastname'
-														)}
-														error={Boolean(
-															touched.lastname &&
-																errors.lastname
-														)}
-														helperText={
-															touched.lastname &&
-															errors.lastname
-														}
-													/>
-												</Stack>
-												<TextField
-													label='Username'
-													{...getFieldProps(
-														'username'
-													)}
-													error={Boolean(
-														touched.username &&
-															errors.username
-													)}
-													helperText={
-														touched.username &&
-														errors.username
-													}
-												/>
-												<TextField
-													label='Description'
-													{...getFieldProps(
-														'description'
-													)}
-													error={Boolean(
-														touched.description &&
-															errors.description
-													)}
-													helperText={
-														touched.description &&
-														errors.description
-													}
-												/>
+										<Typography
+											onClick={openDialog}
+											className='modifyProfileLink'
+											sx={{ color: 'red' }}
+										>
+											DELETE PROFILE
+										</Typography>
+									</Stack>
+								)}
 
-												<Stack
-													direction='row'
-													gap={1}
-													alignSelf='flex-end'
-												>
-													<Button
-														variant='contained'
-														onClick={exitEditMode}
+								{isSelf && (
+									<Stack className='tabStack' spacing={1}>
+										{tabs.map(tabName => (
+											<Typography
+												className={
+													curTab == tabName
+														? 'active'
+														: 'inactive'
+												}
+												sx={{ cursor: 'pointer' }}
+												variant='h6'
+												key={tabName}
+											>
+												{tabName}
+											</Typography>
+										))}
+									</Stack>
+								)}
+							</Grid>
+							<Grid item xs={12} sm={9}>
+								<Stack spacing={3} sx={{ margin: '2rem 4rem' }}>
+									<Card className='profileCard'>
+										<Stack gap={2} p={2}>
+											{isEditMode ? (
+												<Stack gap={2}>
+													<Stack
+														spacing={1}
+														direction='row'
 													>
-														Cancel
-													</Button>
-													<Button
-														variant='contained'
-														type='submit'
+														<TextField
+															sx={{
+																width: '50%',
+															}}
+															label='First Name'
+															{...getFieldProps(
+																'firstname'
+															)}
+															error={Boolean(
+																touched.firstname &&
+																	errors.firstname
+															)}
+															helperText={
+																touched.firstname &&
+																errors.firstname
+															}
+														/>
+														<TextField
+															sx={{
+																width: '50%',
+															}}
+															label='Last Name'
+															{...getFieldProps(
+																'lastname'
+															)}
+															error={Boolean(
+																touched.lastname &&
+																	errors.lastname
+															)}
+															helperText={
+																touched.lastname &&
+																errors.lastname
+															}
+														/>
+													</Stack>
+													<TextField
+														label='Username'
+														{...getFieldProps(
+															'username'
+														)}
+														error={Boolean(
+															touched.username &&
+																errors.username
+														)}
+														helperText={
+															touched.username &&
+															errors.username
+														}
+													/>
+													<TextField
+														label='Description'
+														{...getFieldProps(
+															'description'
+														)}
+														error={Boolean(
+															touched.description &&
+																errors.description
+														)}
+														helperText={
+															touched.description &&
+															errors.description
+														}
+													/>
+
+													<Stack
+														direction='row'
+														gap={1}
+														alignSelf='flex-end'
 													>
-														Save
-													</Button>
+														<Button
+															variant='contained'
+															onClick={
+																exitEditMode
+															}
+														>
+															Cancel
+														</Button>
+														<Button
+															variant='contained'
+															type='submit'
+														>
+															Save
+														</Button>
+													</Stack>
 												</Stack>
-											</Stack>
-										) : (
-											<Stack>
-												<Typography variant='h4'>
-													{curUser.firstname}{' '}
-													{curUser.lastname}
-												</Typography>
-												<Typography
-													sx={{ fontWeight: '700' }}
-												>
-													@{curUser.username}
-												</Typography>
-												<Typography
-													sx={{ marginTop: '1.5rem' }}
-												>
-													{curUser.description}
-												</Typography>
-											</Stack>
-										)}
-									</Stack>
-								</Card>
-								<Card className='profileCard'>
-									<Stack spacing={1} p={2}>
-										<Typography variant='overline'>
-											{curUser.firstname}'s hobbies
-											include...
-										</Typography>
-										<Stack direction='column' spacing={2}>
-											{hobbies.map(hobby => (
-												<Typography
-													variant='body2'
-													className='profileHobby'
-												>
-													{hobby}
-												</Typography>
-											))}
+											) : (
+												<Stack>
+													<Typography variant='h4'>
+														{curUser.firstname}{' '}
+														{curUser.lastname}
+													</Typography>
+													<Typography
+														sx={{
+															fontWeight: '700',
+														}}
+													>
+														@{curUser.username}
+													</Typography>
+													<Typography
+														sx={{
+															marginTop: '1.5rem',
+														}}
+													>
+														{curUser.description}
+													</Typography>
+												</Stack>
+											)}
 										</Stack>
-									</Stack>
-								</Card>
-							</Stack>
+									</Card>
+									<Card className='profileCard'>
+										<Stack spacing={1} p={2}>
+											<Typography variant='overline'>
+												{curUser.firstname}'s hobbies
+												include...
+											</Typography>
+											<Stack
+												direction='column'
+												spacing={2}
+											>
+												{hobbies.map(hobby => (
+													<Typography
+														variant='body2'
+														className='profileHobby'
+													>
+														{hobby}
+													</Typography>
+												))}
+											</Stack>
+										</Stack>
+									</Card>
+								</Stack>
+							</Grid>
 						</Grid>
-					</Grid>
-				</Form>
-			</FormikProvider>
-			}
+					</Form>
+				</FormikProvider>
+			)}
 		</Stack>
 	);
 };

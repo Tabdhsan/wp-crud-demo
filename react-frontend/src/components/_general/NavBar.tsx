@@ -37,7 +37,12 @@ const NavBar = () => {
 					direction='row'
 					onClick={navigateToHomePage}
 				>
-					<img height='50vh' alt='Logo' src='/whiteLogo.png' />
+					<img
+						height='50vh'
+						alt='Logo'
+						src='/whiteLogo.png'
+						style={{ cursor: 'pointer' }}
+					/>
 				</Stack>
 
 				<Stack direction='row' gap={1}>
