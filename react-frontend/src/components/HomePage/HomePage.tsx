@@ -10,6 +10,7 @@ const HomePage = () => {
 
 	useEffect(() => {
 		if (allUsers.length > 0) return;
+		// API will never return an empty array of users
 		getAllUsersApi()
 			.then(res => {
 				setAllUsers(res.data);
