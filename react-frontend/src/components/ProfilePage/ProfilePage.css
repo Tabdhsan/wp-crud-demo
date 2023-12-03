@@ -16,10 +16,10 @@
 
 .profilePic {
 	border-radius: 100%;
-	max-width: '100%';
+	max-width: 100%;
 }
 
-.fourOhFour2 {
+.fourOhFour {
 	width: 100%;
 	padding-top: 5rem;
 }
@@ -29,4 +29,14 @@
 	.editButtons {
 		text-align: center;
 	}
+}
+
+.tabStack { 
+	margin: 2rem 3rem;
+}
+
+.modifyProfileLink { 
+	opacity: 0.7;
+	font-size: 0.75rem !important;
+	cursor: pointer;
 }
