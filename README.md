@@ -1,29 +1,20 @@
-# express-backend
+# Social Sphere - A User Management App
 
-## Project Description
+This project consists of a user management application with separate frontend and backend components.
 
-This is the backend server for a small React CRUD (Create, Read, Update, Delete) demo with basic user management and authentication. It's built with nodejs and express and provides RESTful APIs to perform CRUD operations on user data. The project includes basic authentication features to enhance the security of user data including a middleware layer that can enforce authentication and authorization for any API endpoint.
+## Overview
 
-## Features
+- **Frontend:**
+  - React app written in TypeScript.
+  - Utilizes the Material-UI (MUI) framework for styling.
+  - Features include user authentication, user management, a discovery home page, and user profiles.
+  - Route guarding ensures secure access to different sections of the app.
 
-- **User Management:** Perform CRUD operations on user data, including creating new users, retrieving user information, updating user details, and deleting user accounts.
+- **Backend:**
+  - Express server for handling CRUD operations on user data.
+  - Implements basic authentication features for user security.
 
-- **Authentication:** Basic authentication features are implemented to ensure secure access to user-related endpoints. Users can sign in, sign up, and sign out.
+## Getting Started
 
-## Setup Instructions
-
-Follow these steps to set up and run the Express-Backend server:
-
-
-1. **Install Dependencies:**
-   ```bash
-   npm install
-
-3. **Run the Server:**
-   ```bash
-   npm start
-
-The server will start running on http://localhost:8080 
-
-
+To run the app, follow the setup instructions in the respective README files located in the `react-frontend` and `express-backend` directories.
 
