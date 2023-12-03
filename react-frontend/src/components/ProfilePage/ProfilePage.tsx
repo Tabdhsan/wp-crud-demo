@@ -114,8 +114,12 @@ const ProfilePage = () => {
 		getUserByIdApi(params?.id)
 			.then(res => {
 				setCurUser(res.data);
+				setLoaded(true);
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				console.log(err);
+				setLoaded(true);
+			});
 	}, [params]);
 
 	if (loaded && !curUser)
