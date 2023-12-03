@@ -18,6 +18,5 @@ export const initializeDb = () => {
 		}
 
 		console.log('Connected to database');
-		// You can now start using the database connection for queries or other operations
 	});
 };
