@@ -56,4 +56,5 @@ The preview server will start, and you can access the app at http://localhost:41
   - React: JavaScript library for building user interfaces.
   - TypeScript: Adds static typing to JavaScript to improve code quality.
   - Material-UI (MUI): React components for a consistent design language.
+  - Jest + React Testing Library: Robust testing libraries for unit testing.
   - Vite: Fast build tool for modern web development.
