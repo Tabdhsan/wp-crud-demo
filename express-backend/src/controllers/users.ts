@@ -1,4 +1,5 @@
 // API Logic for /users endpoint
+// TODO: Implement input validation to avoid SQL injections
 import { Request, Response } from 'express';
 import {
 	deleteUserByIdViaDB,
@@ -84,6 +85,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
 		return res.status(200).send(updateUser).end();
 	} catch (err) {
+		console.log('test', err);
 		return res.sendStatus(400);
 	}
 };
