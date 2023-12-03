@@ -1,30 +1,59 @@
-# React + TypeScript + Vite
+# Social Sphere - User Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Description
 
-Currently, two official plugins are available:
+This React app, written in TypeScript, serves as the frontend for a user management system, called Social Sphere, with basic authentication features. Leveraging the Material-UI (MUI) framework for styling and Vite as the build tool, the app provides a user-friendly interface for common operations such as signing in, signing up, viewing user profiles, and managing user accounts.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Authentication:**
+  - Sign in and sign up pages for user authentication.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **User Management:**
+  - Home page displays all users as clickable cards.
+  - Clicking on a user card navigates to the user's page.
+  - User own page allows viewing, editing, and deleting account. This is not available on other users' pages.
 
-- Configure the top-level `parserOptions` property like this:
+- **Route Guarding:**
+  - Unauthorized access is restricted to the authentication page.
+  - If already signed in, going to the authentication page will redirect to the home page.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **User Not Found Page:**
+  - It's fun
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Setup Instructions
+
+Follow these steps to set up and run the React Frontend:
+
+### Dev Mode
+
+1. **Run the Dev Server:**
+   ```bash
+   npm run dev
+  The development server will start, and you can access the app at http://localhost:3000.
+   
+### Production Mode
+
+1. **Build:**
+   ```bash
+   npm run build
+
+2. **Start the Preview Server:**
+   ```bash
+   npm run preview
+The preview server will start, and you can access the app at http://localhost:4173.
+
+
+## Project Structure
+
+  - **src/components**: Contains React components separated by page.
+  - **src/_apis**: Contains logic to make API calls.
+  - **src/hooks**: Includes all custom hooks.
+  - **src/utils**: Contains utility functions and helpers.
+
+## Tools
+
+  - React: JavaScript library for building user interfaces.
+  - TypeScript: Adds static typing to JavaScript to improve code quality.
+  - Material-UI (MUI): React components for a consistent design language.
+  - Vite: Fast build tool for modern web development.
